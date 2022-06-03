@@ -14,10 +14,9 @@ import readline from 'readline'
       input: fileStream,
       crlfDelay: Infinity
     });
-
-    const downloaded = fs.readFileSync('./video/downloaded.txt', 'utf-8')
     // 注意：使用 crlfDelay 选项
     // 将 input.txt 中的所有 CR LF ('\r\n') 实例识别为单个换行符。
+    const downloaded = fs.readFileSync('./video/downloaded.txt', 'utf-8')
     const arrayDown = downloaded.split(`\n`)
     console.log('arrayDown', arrayDown)
     for await (const line of rl) {
