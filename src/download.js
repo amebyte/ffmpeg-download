@@ -14,21 +14,28 @@ import readline from 'readline'
       input: fileStream,
       crlfDelay: Infinity
     });
+
+    const downloaded = fs.readFileSync('./video/downloaded.txt', 'utf-8')
     // 注意：使用 crlfDelay 选项
     // 将 input.txt 中的所有 CR LF ('\r\n') 实例识别为单个换行符。
-
+    const arrayDown = downloaded.split(`\n`)
+    console.log('arrayDown', arrayDown)
     for await (const line of rl) {
       // input.txt 中的每一行都将在此处作为 `line` 连续可用。
-      if (line.length > 10) {
-        array.push(line)
-      }
+    //   if (line.length > 10) {
+    //     array.push(line)
+    //   }
+        if(!arrayDown.includes(line)) {
+            array.push(line)
+        }
+        
       // console.log(`Line from file: ${line}`);
     }
     //   console.log(array.length);
   }
 
   await processLineByLine()
-  console.log(array);
+//   console.log(array);
   console.log(array.length);
   const errorList = []
   await sendRequest(array, 10)
@@ -51,9 +58,15 @@ import readline from 'readline'
                 return;
               }
               if (cut == len - 1) {
+                let content = fs.readFileSync('./video/downloaded.txt', 'utf-8');
+                content += `${task}\n`
+                fs.writeFileSync('./video/downloaded.txt', content)
                 console.log('完成-----：', task.split('aac_adtstoasc')[1])
                 resolve();
               } else {
+                let content = fs.readFileSync('./video/downloaded.txt', 'utf-8');
+                content += `${task}\n`
+                fs.writeFileSync('./video/downloaded.txt', content)
                 console.log('完成-----：', task.split('aac_adtstoasc')[1])
                 cut++;
                 start();
